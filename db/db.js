@@ -21,9 +21,24 @@ if (process.env.DATABASE_URL) {
 }
 
 // define hashtag cache
+const Hashtag = db.define('Hashtag', {
+  hashtag: Sequelize.STRING
+})
 
-// before reaching out to twitter api check if hashtag has been cached already
+const Tweet = db.define('Tweet', {
+  text: Sequelize.STRING,
+  name: Sequelize.STRING,
+  screenname: Sequelize.STRING,
+  date: Sequelize.STRING
+})
 
-// if no then create new entry
+Hashtag.hasMany(Tweet, {as: 'Tweets'})
 
+Hashtag.sync();
+Tweet.sync();
+
+db.Sequelize = Sequelize;
 module.exports = db;
+
+module.exports.Hashtag = Hashtag;
+module.exports.Tweet = Tweet;
