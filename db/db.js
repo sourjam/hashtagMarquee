@@ -22,18 +22,22 @@ if (process.env.DATABASE_URL) {
 
 // define hashtag cache
 const Hashtag = db.define('Hashtag', {
-  hashtag: Sequelize.STRING
+  hashtag: Sequelize.STRING,
+  tweets: Sequelize.STRING
 })
 
 const Tweet = db.define('Tweet', {
+  hashtag: Sequelize.STRING,
   text: Sequelize.STRING,
   name: Sequelize.STRING,
   screenname: Sequelize.STRING,
   date: Sequelize.STRING
 })
 
-Hashtag.hasMany(Tweet, {as: 'Tweets'})
-
+Hashtag.hasMany(Tweet)
+Tweet.belongsTo(Hashtag)
+//
+// let force = {force: true}
 Hashtag.sync();
 Tweet.sync();
 
