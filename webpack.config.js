@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyWebPackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 const config = {
@@ -21,14 +22,16 @@ const config = {
       },
       {
         test: /\.css$/,
-        loader: 'css-loader!postcss-loader'
+        use: ExtractTextPlugin.extract({
+          use: 'css-loader!postcss-loader'
+        })
       }
     ]
   },
   plugins: [
+    new ExtractTextPlugin("client.css"),
     new CopyWebPackPlugin([
-      { from: './client/src/index.html', to: '../dist/index.html'},
-      { from: './client/src/client.css', to: '../dist/client.css'},
+      { from: './client/src/index.html', to: '../dist/index.html'}
     ])
   ]
 }
