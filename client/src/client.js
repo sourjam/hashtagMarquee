@@ -40,16 +40,25 @@ class SimpleMarquee extends React.Component {
   constructor(props) {
     super()
     this.marqueeData = props.data
+    this.marqueeEl = document.createElement('div')
+    this.marqueeEl.classList.add('marqueeScroll')
+    props.data.forEach((tweet) => {
+        let t = document.createElement('div')
+        t.innerText = tweet.text
+        this.marqueeEl.appendChild(t)
+    })
+    console.log('this.marqueeEl', this.marqueeEl)
+  }
+  componentDidMount() {
+    let marquee = document.getElementById('marquee')
+    marquee.appendChild(this.marqueeEl)
+    let cloned = this.marqueeEl.cloneNode(true)
+    marquee.appendChild(cloned)
+
   }
   render() {
     return (
-      <div>
-        { this.marqueeData.map((tweet) => {
-          return <div>{tweet.text}</div>
-        })
-
-        }
-      </div>
+      <div id="marquee"></div>
     )
   }
 }

@@ -1047,23 +1047,29 @@ var SimpleMarquee = function (_React$Component2) {
     var _this3 = _possibleConstructorReturn(this, (SimpleMarquee.__proto__ || Object.getPrototypeOf(SimpleMarquee)).call(this));
 
     _this3.marqueeData = props.data;
+    _this3.marqueeEl = document.createElement('div');
+    _this3.marqueeEl.classList.add('marqueeScroll');
+    props.data.forEach(function (tweet) {
+      var t = document.createElement('div');
+      t.innerText = tweet.text;
+      _this3.marqueeEl.appendChild(t);
+    });
+    console.log('this.marqueeEl', _this3.marqueeEl);
     return _this3;
   }
 
   _createClass(SimpleMarquee, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var marquee = document.getElementById('marquee');
+      marquee.appendChild(this.marqueeEl);
+      var cloned = this.marqueeEl.cloneNode(true);
+      marquee.appendChild(cloned);
+    }
+  }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        this.marqueeData.map(function (tweet) {
-          return _react2.default.createElement(
-            'div',
-            null,
-            tweet.text
-          );
-        })
-      );
+      return _react2.default.createElement('div', { id: 'marquee' });
     }
   }]);
 

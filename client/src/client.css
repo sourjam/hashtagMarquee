@@ -1,0 +1,23 @@
+body {
+  background-color: whitesmoke;
+}
+
+#marquee {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.marqueeScroll {
+  display: flex;
+  animation: 30s infscroll infinite ease-in;
+}
+
+@keyframes infscroll {
+  0% {
+    transform: translateX(0)
+  }
+  100% {
+    transform: translateX(-100%)
+  }
+}

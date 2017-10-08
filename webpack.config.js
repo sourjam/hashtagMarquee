@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyWebPackPlugin = require('copy-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 const config = {
   context: path.join(__dirname),
@@ -17,12 +18,17 @@ const config = {
           presets: ['react', 'es2015']
         },
         exclude: path.join(__dirname, '/node_modules')
+      },
+      {
+        test: /\.css$/,
+        loader: 'css-loader!postcss-loader'
       }
     ]
   },
   plugins: [
     new CopyWebPackPlugin([
-      { from: './client/src/index.html', to: '../dist/index.html'}
+      { from: './client/src/index.html', to: '../dist/index.html'},
+      { from: './client/src/client.css', to: '../dist/client.css'},
     ])
   ]
 }
