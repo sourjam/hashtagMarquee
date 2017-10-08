@@ -5,14 +5,51 @@ class SimpleInput extends React.Component {
   constructor(props) {
     super()
     this.state = {}
-    this.state.userInput = 'Enter hashtag'
+    this.state.userInput = ''
+    this.state.searching = false
+    this.searchHashtag = props.searchHashtag
+    this.renderMarquee = props.renderMarquee
   }
   updateInput(event) {
     this.setState({userInput: event.target.value})
   }
+  runSearch() {
+    this.searchHashtag(this.state.userInput).then((result) => {
+      if (result.error) {
+        let marquee = [{text: 'No tweets found for: ' + this.state.userInput}]
+      } else {
+        console.log('time to render', result)
+        this.renderMarquee(result)
+      }
+    })
+  }
   render() {
     return (
-      <input onChange={this.updateInput.bind(this)} type="text" value={this.state.userInput}></input>
+      <div>
+        <input onChange={this.updateInput.bind(this)}
+          placeholder="Enter hashtag"
+          type="text"
+          value={this.state.userInput}></input>
+        <button onClick={this.runSearch.bind(this)}>Search</button>
+      </div>
+    )
+  }
+}
+
+class SimpleMarquee extends React.Component {
+  constructor(props) {
+    super()
+    this.marqueeData = props.data
+  }
+  render() {
+    return (
+      <div>
+        { this.marqueeData.map((tweet) => {
+          return <div>{tweet.text}</div>
+        })
+
+        }
+      </div>
     )
   }
 }
@@ -20,12 +57,32 @@ class SimpleInput extends React.Component {
 export default class App extends React.Component {
   constructor(props) {
     super();
+    this.state = {}
+    this.state.marquee = null
+  }
+  searchHashtag(hashtag) {
+    let localUrl = "http://localhost:5000/search/" + hashtag
+    return new Promise((resolve, reject) => {
+      fetch(localUrl).then(resp => resp.json()).then((data) => {
+        console.log('here be data', data)
+        resolve(data)
+      }).catch(err => reject(err))
+    })
+  }
+  renderMarquee(data) {
+    this.setState({marquee: data}, () => {
+      console.log(this.state.marquee)
+    })
   }
   render() {
     return (
       <div>
         <h3>Hello React</h3>
-        <SimpleInput />
+        <SimpleInput
+          searchHashtag={this.searchHashtag.bind(this)}
+          renderMarquee={this.renderMarquee.bind(this)}
+          />
+        { this.state.marquee ? <SimpleMarquee data={this.state.marquee}/> : null}
       </div>
     )
   }

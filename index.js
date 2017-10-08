@@ -8,10 +8,11 @@ const twitterService = require("./service/twitterSearchApi");
 
 app.set("port", process.env.PORT || 5000);
 
-app.use(express.static(path.join(__dirname, "./client/src")));
+app.use(express.static(path.join(__dirname, "./client/dist/")));
 
 app.get("/", (req, res) => {
-  res.send('default marquee')
+  console.log('reqest')
+  res.sendFile(path.join(__dirname + '/client/dist/index.html'))
 })
 
 app.get("/marquee/:name", (req, res) => {
@@ -20,52 +21,25 @@ app.get("/marquee/:name", (req, res) => {
 })
 
 app.get("/search/:hashtag", (req, res) => {
-  // check db first for hashtag
-  query.hashtag.findOne(req.params.hashtag).then((result) => {
-    console.log('res', result)
-    if (result) {
-      console.log('return db store')
-      // client should call for update and concat
+  console.log('search incoming')
+  twitterService.searchByHashtag(req.params.hashtag).then((result)=>{
+    if (result.statuses.length === 0) {
+      // send empty response
+      res.send({error: 'no tweets found'})
     } else {
-
-      twitterService.searchByHashtag(req.params.hashtag).then((result)=>{
-        if (result.statuses.length === 0) {
-          // send empty response
-          res.send('no tweets for that hashtag')
-        } else {
-          result.statuses.forEach((tweet) => {
-            console.log(tweet.entities)
-          })
-          // query.hashtag.add(req.params.hashtag).then((result) => {
-          //   // create hashtag row
-          //
-          // })
-          //
-          // let bulkTweets = []
-          // result.statuses.forEach((tweet) => {
-          //   let t = {}
-          //   t.text = tweet.text
-          //   t.name = tweet.user.name
-          //   t.screenname = tweet.user.screen_name
-          //   t.date = tweet.created_at
-          //   t.hashtag = req.params.hashtag
-          //   bulkTweets.push(t)
-          // })
-          // query.tweet.bulkCreate(bulkTweets).then((results) => {
-          //   // store
-          //   res.send(results)
-          // })
-          // res.send(bulkTweets)
-        }
-
-        // res.send(result);
-      });
-
-      console.log('store hashtag')
+      let bulkTweets = []
+      result.statuses.forEach((tweet) => {
+        let t = {}
+        t.text = tweet.text
+        t.name = tweet.user.name
+        t.screenname = tweet.user.screen_name
+        t.date = tweet.created_at
+        t.hashtag = req.params.hashtag
+        bulkTweets.push(t)
+      })
+      res.send(bulkTweets)
     }
-  })
-
-
+  });
 })
 
 app.listen(app.get("port"), () => {
