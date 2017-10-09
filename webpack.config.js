@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path');
 const CopyWebPackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -32,8 +33,17 @@ const config = {
     new ExtractTextPlugin("client.css"),
     new CopyWebPackPlugin([
       { from: './client/src/index.html', to: '../dist/index.html'}
-    ])
-  ]
+    ]),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
+      comments: false,
+      compress: {
+         warnings: false,
+         drop_console: false
+       }
+    })
+  ],
+  devtool: 'cheap-sourcemap'
 }
 
 module.exports = config;
