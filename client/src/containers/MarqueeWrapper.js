@@ -89,7 +89,6 @@ class MarqueeWrapper extends React.Component {
     console.log('rendering...')
     return (
       <div>
-        <button onClick={() => {this.updateHashtag('news')}}>click</button>
         { this.state.marqueeData.length > 0 ?
           <div>
             { this.state.marqueeData.map((datum, i) => {

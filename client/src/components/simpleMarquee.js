@@ -1,4 +1,5 @@
 import React from 'react';
+import randomcolor from 'randomcolor';
 
 let fontRandom = () => {
   let fonts = ['Lato', 'Roboto Slab', 'Monteserrate']
@@ -38,7 +39,7 @@ export default class SimpleMarquee extends React.Component {
   }
   componentDidMount() {
     this.marquee = document.getElementById('marquee-' + this.index)
-    this.marqueeEl.style.backgroundColor = 'skyblue'
+    this.marqueeEl.style.backgroundColor = randomcolor({ luminosity: 'light'})
     this.marqueeEl.addEventListener('animationiteration', () => {
       console.log('sky blue iterated')
       this.checkToAppendTweets()
@@ -49,10 +50,10 @@ export default class SimpleMarquee extends React.Component {
     this.marqueeEl.style.animationDuration = animationDuration
     this.marquee.appendChild(this.marqueeEl)
     let cloned = this.marqueeEl.cloneNode(true)
-    cloned.style.backgroundColor = 'limegreen'
+    // cloned.style.backgroundColor = 'limegreen'
     this.marquee.appendChild(cloned)
     let clonedAgain = cloned.cloneNode(true)
-    cloned.style.backgroundColor = 'coral'
+    // cloned.style.backgroundColor = 'coral'
     this.marquee.appendChild(clonedAgain)
 
   }
