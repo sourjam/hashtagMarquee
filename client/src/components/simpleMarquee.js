@@ -16,9 +16,14 @@ let fontRandom = () => {
 export default class SimpleMarquee extends React.Component {
   constructor(props) {
     super()
+    this.currentFont = 1.5
     this.currentMarqueeWidth = 0
     this.tweetsToAppend = []
+
+    this.increaseFont = this.increaseFont.bind(this)
+    this.decreaseFont = this.decreaseFont.bind(this)
     this.checkToAppendTweets = this.checkToAppendTweets.bind(this)
+
     this.index = props.index
     this.marqueeData = props.data
     this.marqueeEl = document.createElement('div')
@@ -95,14 +100,29 @@ export default class SimpleMarquee extends React.Component {
 
     console.log('append dis', tweets)
   }
+  increaseFont() {
+    let el = document.getElementById('marquee-' + this.index)
+    this.currentFont = this.currentFont + .25
+    el.style.fontSize = this.currentFont + 'em'
+  }
+  decreaseFont() {
+    let el = document.getElementById('marquee-' + this.index)
+    this.currentFont = this.currentFont - .25
+    if (this.currentFont < .75) this.currentFont = .5
+    el.style.fontSize = this.currentFont + 'em'
+  }
   render() {
     return (
       <div className="marqueeOuter">
         <div className="marqueeToolbar" id={'marqueeToolbar-' + this.index}>
           <div className="marqueeLabel" id={'marqueeLabel-' + this.index}>#{this.marqueeData[0].hashtag}</div>
-
+          <div className="marqueeButtons">
+            <div className="marqueeButton" onClick={this.increaseFont}>+</div>
+            <div className="marqueeButton" onClick={this.decreaseFont}>-</div>
+            <div className="marqueeButton trouble">x</div>
+          </div>
         </div>
-        <div className="marquee" id={'marquee-' + this.index}></div>
+        <div style={{fontSize: this.currentFont + 'em'}} className="marquee" id={'marquee-' + this.index}></div>
       </div>
     )
   }

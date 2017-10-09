@@ -36,9 +36,13 @@ class AddHashtag extends React.Component {
           value={this.state.userInput}>
         </input>
         <button onClick={(e) => {
-          e.preventDefault(); this.props.dispatch(addHashtag(this.state.userInput)); this.clearInput();
+          e.preventDefault();
+          if (this.state.userInput.length > 0) {
+            this.props.dispatch(addHashtag(this.state.userInput));
+            this.clearInput();
+          }
         }}>
-          Add Hashtag</button>
+          Add hashtag</button>
       </div>
     )
   }

@@ -23666,9 +23666,13 @@ var AddHashtag = function (_React$Component) {
         _react2.default.createElement(
           'button',
           { onClick: function onClick(e) {
-              e.preventDefault();_this2.props.dispatch((0, _actions.addHashtag)(_this2.state.userInput));_this2.clearInput();
+              e.preventDefault();
+              if (_this2.state.userInput.length > 0) {
+                _this2.props.dispatch((0, _actions.addHashtag)(_this2.state.userInput));
+                _this2.clearInput();
+              }
             } },
-          'Add Hashtag'
+          'Add hashtag'
         )
       );
     }
@@ -23755,6 +23759,7 @@ var MarqueeWrapper = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (MarqueeWrapper.__proto__ || Object.getPrototypeOf(MarqueeWrapper)).call(this, props));
 
     _this.children = {};
+    _this.intervals = {};
     _this.state = {};
     _this.state.marqueeData = [];
     _this.state.tagsLoaded = []; // index of tag is the same index of the data
@@ -23844,7 +23849,7 @@ var MarqueeWrapper = function (_React$Component) {
               newData.push(result);
               newTags.push(tag);
               _this3.setState({ marqueeData: newData, tagsLoaded: newTags }, function () {
-                setInterval(function () {
+                _this3.intervals[tag] = setInterval(function () {
                   _this3.updateHashtag(tag);
                 }, 15000);
                 console.log('marqueestate', _this3.state);
@@ -23867,7 +23872,7 @@ var MarqueeWrapper = function (_React$Component) {
           'div',
           null,
           this.state.marqueeData.map(function (datum, i) {
-            return _react2.default.createElement(_SimpleMarquee2.default, { ref: function ref(instance) {
+            return _react2.default.createElement(_SimpleMarquee2.default, { key: 'SimpleMarquee-' + i, ref: function ref(instance) {
                 _this4.children[i] = instance;
               }, index: i, data: datum });
           })
@@ -23936,9 +23941,14 @@ var SimpleMarquee = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SimpleMarquee.__proto__ || Object.getPrototypeOf(SimpleMarquee)).call(this));
 
+    _this.currentFont = 1.5;
     _this.currentMarqueeWidth = 0;
     _this.tweetsToAppend = [];
+
+    _this.increaseFont = _this.increaseFont.bind(_this);
+    _this.decreaseFont = _this.decreaseFont.bind(_this);
     _this.checkToAppendTweets = _this.checkToAppendTweets.bind(_this);
+
     _this.index = props.index;
     _this.marqueeData = props.data;
     _this.marqueeEl = document.createElement('div');
@@ -24027,6 +24037,21 @@ var SimpleMarquee = function (_React$Component) {
       console.log('append dis', tweets);
     }
   }, {
+    key: 'increaseFont',
+    value: function increaseFont() {
+      var el = document.getElementById('marquee-' + this.index);
+      this.currentFont = this.currentFont + .25;
+      el.style.fontSize = this.currentFont + 'em';
+    }
+  }, {
+    key: 'decreaseFont',
+    value: function decreaseFont() {
+      var el = document.getElementById('marquee-' + this.index);
+      this.currentFont = this.currentFont - .25;
+      if (this.currentFont < .75) this.currentFont = .5;
+      el.style.fontSize = this.currentFont + 'em';
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -24034,11 +24059,34 @@ var SimpleMarquee = function (_React$Component) {
         { className: 'marqueeOuter' },
         _react2.default.createElement(
           'div',
-          { className: 'marqueeLabel', id: 'marqueeLabel-' + this.index },
-          '#',
-          this.marqueeData[0].hashtag
+          { className: 'marqueeToolbar', id: 'marqueeToolbar-' + this.index },
+          _react2.default.createElement(
+            'div',
+            { className: 'marqueeLabel', id: 'marqueeLabel-' + this.index },
+            '#',
+            this.marqueeData[0].hashtag
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'marqueeButtons' },
+            _react2.default.createElement(
+              'div',
+              { className: 'marqueeButton', onClick: this.increaseFont },
+              '+'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'marqueeButton', onClick: this.decreaseFont },
+              '-'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'marqueeButton trouble' },
+              'x'
+            )
+          )
         ),
-        _react2.default.createElement('div', { className: 'marquee', id: 'marquee-' + this.index })
+        _react2.default.createElement('div', { style: { fontSize: this.currentFont + 'em' }, className: 'marquee', id: 'marquee-' + this.index })
       );
     }
   }]);

@@ -6,6 +6,7 @@ class MarqueeWrapper extends React.Component {
   constructor(props) {
     super(props)
     this.children = {}
+    this.intervals = {}
     this.state = {}
     this.state.marqueeData = []
     this.state.tagsLoaded = [] // index of tag is the same index of the data
@@ -75,7 +76,7 @@ class MarqueeWrapper extends React.Component {
             newData.push(result)
             newTags.push(tag)
             this.setState({marqueeData: newData, tagsLoaded: newTags}, () => {
-              setInterval(()=>{
+              this.intervals[tag] = setInterval(()=>{
                 this.updateHashtag(tag)
               }, 15000)
               console.log('marqueestate', this.state)
@@ -92,7 +93,7 @@ class MarqueeWrapper extends React.Component {
         { this.state.marqueeData.length > 0 ?
           <div>
             { this.state.marqueeData.map((datum, i) => {
-              return <SimpleMarquee ref={instance => {this.children[i] = instance}} index={i} data={datum} />
+              return <SimpleMarquee key={'SimpleMarquee-' + i} ref={instance => {this.children[i] = instance}} index={i} data={datum} />
             })}
           </div> : null
         }

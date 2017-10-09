@@ -6,18 +6,96 @@ h3 {
   font-family: 'Roboto', sans-serif;
 }
 
+input {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: .5em;
+  font-family: 'Roboto', sans-serif;
+  margin-right: .25em;
+}
+input: focus {
+  outline: none;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding: .5em;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  background-color: black;
+  color: whitesmoke;
+}
+button:focus {
+  outline: none;
+}
+button:hover {
+  color: black;
+  background-color: whitesmoke;
+}
+
+.marqueeOuter {
+  margin-top: .2em;
+  margin-bottom: .2em;
+}
+
 .marquee {
   display: flex;
   overflow: hidden;
   width: 100%;
 }
 
-.marqueeLabel {
+.marqueeToolbar {
   font-family: 'Roboto', sans-serif;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.marqueeLabel {
+  padding-right: .2em;
+
+}
+
+.marqueeButtons {
+  position: absolute;
+  right: 0;
+  display: flex;
+}
+
+.marqueeButton {
+  margin-right: .25em;
+  height: 1.2em;
+  width: 1.2em;
+  border-radius: 50%;
+  background-color: black;
+  color: whitesmoke;
+  line-height: 1.2em;
+  font-size: 1.2em;
+  font-family: Arial;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.marqueeButton:hover {
+  color: black;
+  background-color: skyblue;
+}
+
+.marqueeButton.trouble:hover {
+  background-color: red;
+  color: white;
+}
+
+.marqueeButton:active {
+  outline: none;
 }
 
 .marqueeTweet {
-  font-size: 1.5em;
   font-family: 'Open Sans', sans-serif;
 }
 
