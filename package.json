@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/sourjam/hashtagMarquee.git"
   },
+  "engines": {
+      "node": "8.1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
