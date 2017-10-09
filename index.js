@@ -15,9 +15,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + '/client/dist/index.html'))
 })
 
-app.get("/marquee/:name", (req, res) => {
+app.get("/:id", (req, res) => {
   // send single bundle
-  res.send('return marquee obj here')
+  console.log('what', req.params.id)
+  res.sendFile(path.join(__dirname + '/client/dist/index.html'))
 })
 
 app.get("/search/:hashtag", (req, res) => {

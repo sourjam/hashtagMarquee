@@ -13,6 +13,9 @@ export default class App extends React.Component {
   constructor(props) {
     super();
   }
+  componentWillMount() {
+    console.log('url', window.location.href)
+  }
   searchHashtag(hashtag) {
     let localUrl = "http://localhost:5000/search/" + hashtag
     return new Promise((resolve, reject) => {
