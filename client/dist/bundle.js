@@ -2031,12 +2031,6 @@ var App = function (_React$Component) {
         console.log(_this2.state.marquee);
       });
     }
-    // <SimpleInput
-    //   searchHashtag={this.searchHashtag.bind(this)}
-    //   renderMarquee={this.renderMarquee.bind(this)}
-    //   />
-    // { this.state.marquee ? <SimpleMarquee data={this.state.marquee}/> : null}
-
   }, {
     key: 'render',
     value: function render() {
@@ -23759,10 +23753,13 @@ var MarqueeWrapper = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (MarqueeWrapper.__proto__ || Object.getPrototypeOf(MarqueeWrapper)).call(this, props));
 
+    _this.children = {};
     _this.state = {};
     _this.state.marqueeData = [];
-    _this.state.tagsLoaded = [];
+    _this.state.tagsLoaded = []; // index of tag is the same index of the data
     _this.searchHashtag = _this.searchHashtag.bind(_this);
+    _this.updateHashtag = _this.updateHashtag.bind(_this);
+    _this.mergeTweetsToUnique = _this.mergeTweetsToUnique.bind(_this);
     console.log(props);
     return _this;
   }
@@ -23783,22 +23780,73 @@ var MarqueeWrapper = function (_React$Component) {
       });
     }
   }, {
+    key: 'mergeTweetsToUnique',
+    value: function mergeTweetsToUnique(a, b) {
+      var total = a.concat(b);
+      var m = {};
+      var result = total.filter(function (t) {
+        if (!m[t.text]) {
+          m[t.text] = true;
+          return t;
+        }
+      });
+      return result;
+    }
+  }, {
+    key: 'filterTweetsToUnique',
+    value: function filterTweetsToUnique(a, b) {
+      var m = {};
+      a.forEach(function (t) {
+        m[t.text] = true;
+      });
+      var result = b.filter(function (t) {
+        if (!m[t.text]) {
+          return t;
+        }
+      });
+      return result;
+    }
+  }, {
+    key: 'updateHashtag',
+    value: function updateHashtag(hashtag) {
+      var _this2 = this;
+
+      var index = this.state.tagsLoaded.indexOf(hashtag);
+      var oldData = this.state.marqueeData[index];
+      this.searchHashtag(hashtag).then(function (latest) {
+        // merge and remove dupes // move to server in future
+        var merged = _this2.mergeTweetsToUnique(oldData, latest);
+        var uniques = _this2.filterTweetsToUnique(oldData, latest);
+        if (merged.length !== oldData.length) {
+          _this2.state.marqueeData[index] = merged;
+          var newMarqueeData = _this2.state.marqueeData.slice();
+          _this2.children[index].appendTweets(uniques);
+          _this2.state.marqueeData = newMarqueeData;
+          // this.setState({marqueeData: newMarqueeData})
+          // update simple marquee to append new child tweets
+        }
+      });
+    }
+  }, {
     key: 'componentWillUpdate',
     value: function componentWillUpdate(newState) {
-      var _this2 = this;
+      var _this3 = this;
 
       console.log('updating', newState);
       newState.hashtags.forEach(function (tag) {
-        if (!_this2.state.tagsLoaded.includes(tag)) {
-          _this2.searchHashtag(tag).then(function (result) {
+        if (!_this3.state.tagsLoaded.includes(tag)) {
+          _this3.searchHashtag(tag).then(function (result) {
             if (result.length > 0) {
               console.log(result);
-              var newData = _this2.state.marqueeData;
-              var newTags = _this2.state.tagsLoaded;
+              var newData = _this3.state.marqueeData;
+              var newTags = _this3.state.tagsLoaded;
               newData.push(result);
               newTags.push(tag);
-              _this2.setState({ marqueeData: newData, tagsLoaded: newTags }, function () {
-                console.log('marqueestate', _this2.state);
+              _this3.setState({ marqueeData: newData, tagsLoaded: newTags }, function () {
+                setInterval(function () {
+                  _this3.updateHashtag(tag);
+                }, 15000);
+                console.log('marqueestate', _this3.state);
               });
             }
           });
@@ -23808,15 +23856,26 @@ var MarqueeWrapper = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this4 = this;
+
       console.log('rendering...');
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(
+          'button',
+          { onClick: function onClick() {
+              _this4.updateHashtag('news');
+            } },
+          'click'
+        ),
         this.state.marqueeData.length > 0 ? _react2.default.createElement(
           'div',
           null,
           this.state.marqueeData.map(function (datum, i) {
-            return _react2.default.createElement(_SimpleMarquee2.default, { index: i, data: datum });
+            return _react2.default.createElement(_SimpleMarquee2.default, { ref: function ref(instance) {
+                _this4.children[i] = instance;
+              }, index: i, data: datum });
           })
         ) : null
       );
@@ -23859,6 +23918,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var fontRandom = function fontRandom() {
+  var fonts = ['Lato', 'Roboto Slab', 'Monteserrate'];
+  var random = Math.random();
+  if (random < .33) {
+    return fonts[0];
+  } else if (random >= .33 && random < .66) {
+    return fonts[1];
+  } else {
+    return fonts[2];
+  }
+};
+
 var SimpleMarquee = function (_React$Component) {
   _inherits(SimpleMarquee, _React$Component);
 
@@ -23867,14 +23938,24 @@ var SimpleMarquee = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SimpleMarquee.__proto__ || Object.getPrototypeOf(SimpleMarquee)).call(this));
 
+    _this.currentMarqueeWidth = 0;
+    _this.tweetsToAppend = [];
+    _this.checkToAppendTweets = _this.checkToAppendTweets.bind(_this);
     _this.index = props.index;
     _this.marqueeData = props.data;
     _this.marqueeEl = document.createElement('div');
     _this.marqueeEl.classList.add('marqueeScroll');
     props.data.forEach(function (tweet) {
-      var t = document.createElement('div');
-      t.innerText = tweet.text;
-      _this.marqueeEl.appendChild(t);
+      if (!tweet.text.match('RT @')) {
+        var t = document.createElement('div');
+        t.classList.add('marqueeTweet');
+        t.innerText = tweet.text;
+        var length = t.innerText.length * 8;
+        _this.currentMarqueeWidth += length;
+        t.style.width = length + 'px';
+        // t.style.fontFamily = fontRandom() + ', sans-serif'
+        _this.marqueeEl.appendChild(t);
+      }
     });
     console.log('this.marqueeEl', _this.marqueeEl);
     return _this;
@@ -23883,10 +23964,60 @@ var SimpleMarquee = function (_React$Component) {
   _createClass(SimpleMarquee, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var marquee = document.getElementById('marquee-' + this.index);
-      marquee.appendChild(this.marqueeEl);
+      var _this2 = this;
+
+      this.marquee = document.getElementById('marquee-' + this.index);
+      this.marqueeEl.style.backgroundColor = 'skyblue';
+      this.marqueeEl.addEventListener('animationiteration', function () {
+        console.log('sky blue iterated');
+        _this2.checkToAppendTweets();
+      });
+      // calc length of single banner for scroll duration
+
+      var animationDuration = this.currentMarqueeWidth / 50 + 's';
+      this.marqueeEl.style.animationDuration = animationDuration;
+      this.marquee.appendChild(this.marqueeEl);
       var cloned = this.marqueeEl.cloneNode(true);
-      marquee.appendChild(cloned);
+      cloned.style.backgroundColor = 'limegreen';
+      this.marquee.appendChild(cloned);
+      var clonedAgain = cloned.cloneNode(true);
+      cloned.style.backgroundColor = 'coral';
+      this.marquee.appendChild(clonedAgain);
+    }
+  }, {
+    key: 'checkToAppendTweets',
+    value: function checkToAppendTweets() {
+      var _this3 = this;
+
+      if (this.tweetsToAppend.length > 0) {
+        console.log('marquee', this.marquee.children);
+        var children = [this.marquee.children[0], this.marquee.children[1], this.marquee.children[2]];
+        children.forEach(function (el) {
+          _this3.tweetsToAppend.forEach(function (tweet) {
+            if (!tweet.text.match('RT @')) {
+              var t = document.createElement('div');
+              t.classList.add('marqueeTweet');
+              t.innerText = tweet.text;
+              var length = t.innerText.length * 5;
+              _this3.currentMarqueeWidth += length;
+              t.style.width = length + 'px';
+              // t.style.fontFamily = fontRandom() + ', sans-serif'
+              el.appendChild(t);
+            }
+          });
+          var duration = _this3.currentMarqueeWidth / 50 + 's';
+          el.style.animationDuration = duration;
+        });
+        this.tweetsToAppend = [];
+      }
+    }
+  }, {
+    key: 'appendTweets',
+    value: function appendTweets(tweets) {
+      this.tweetsToAppend = this.tweetsToAppend.concat(tweets);
+      // append to the marquee not showing -- then update other marquee when not showing
+
+      console.log('append dis', tweets);
     }
   }, {
     key: 'render',

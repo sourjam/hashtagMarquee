@@ -8,9 +8,14 @@ body {
   width: 100%;
 }
 
+.marqueeTweet {
+  font-size: 2em;
+  font-family: 'Roboto Slab', sans-serif;
+}
+
 .marqueeScroll {
   display: flex;
-  animation: 30s infscroll infinite ease-in;
+  animation: infscroll infinite linear;
 }
 
 @keyframes infscroll {
