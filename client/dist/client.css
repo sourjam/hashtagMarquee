@@ -1,0 +1,144 @@
+body {
+  background-color: whitesmoke;
+}
+
+h3 {
+  font-family: 'Roboto', sans-serif;
+}
+
+input {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: .5em;
+  font-family: 'Roboto', sans-serif;
+  margin-right: .25em;
+}
+input: focus {
+  outline: none;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding: .5em;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  background-color: black;
+  color: whitesmoke;
+}
+button:focus {
+  outline: none;
+}
+button:hover {
+  color: black;
+  background-color: whitesmoke;
+}
+
+.marqueeOuter {
+  margin-top: .2em;
+  margin-bottom: .2em;
+}
+
+.marquee {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.marqueeToolbar {
+  font-family: 'Roboto', sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.marqueeLabel {
+  padding-right: .2em;
+
+}
+
+.marqueeButtons {
+  position: absolute;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.marqueeButton {
+  margin-right: .25em;
+  height: 1.2em;
+  width: 1.2em;
+  border-radius: 50%;
+  background-color: black;
+  color: whitesmoke;
+  line-height: 1.2em;
+  font-size: 1.2em;
+  font-family: Arial;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+}
+
+.marqueeButton:hover {
+  color: black;
+  background-color: skyblue;
+}
+
+.marqueeButton.trouble:hover {
+  background-color: red;
+  color: white;
+}
+
+.marqueeButton:active {
+  outline: none;
+}
+
+.marqueeTweet {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.marqueeScroll {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-animation: infscroll infinite linear;
+          animation: infscroll infinite linear;
+}
+
+@-webkit-keyframes infscroll {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0)
+  }
+  100% {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%)
+  }
+}
+
+@keyframes infscroll {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0)
+  }
+  100% {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%)
+  }
+}

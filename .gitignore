@@ -6,5 +6,3 @@ npm-debug.log
 *.env
 *.dev
 .DS_Store
-
-client/dist
