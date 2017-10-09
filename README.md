@@ -16,3 +16,7 @@
 2. Buttonize other hashtags for easy add
 3. Add hashtag label at top of marquee
 4. Slightly random font and background color for each hashtag marquee
+
+### Bugs
+
+1. Marquee will reappear if query is already in process.
