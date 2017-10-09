@@ -2,7 +2,7 @@ body {
   background-color: whitesmoke;
 }
 
-#marquee {
+.marquee {
   display: flex;
   overflow: hidden;
   width: 100%;

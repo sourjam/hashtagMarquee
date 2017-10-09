@@ -2,7 +2,7 @@ body {
   background-color: whitesmoke;
 }
 
-#marquee {
+.marquee {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

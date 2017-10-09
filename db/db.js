@@ -20,6 +20,12 @@ if (process.env.DATABASE_URL) {
   })
 }
 
+
+const Marquee = db.define('Marquee', {
+  urlparam: Sequelize.STRING,
+  hashtags: Sequelize.JSON
+})
+
 // define hashtag cache
 const Hashtag = db.define('Hashtag', {
   hashtag: Sequelize.STRING,
