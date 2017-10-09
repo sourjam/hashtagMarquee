@@ -31,6 +31,7 @@ app.get("/search/:hashtag", (req, res) => {
       result.statuses.forEach((tweet) => {
         let t = {}
         t.text = tweet.text
+        t.text = t.text.replace(/\r?\n/g, '')
         t.name = tweet.user.name
         t.screenname = tweet.user.screen_name
         t.date = tweet.created_at

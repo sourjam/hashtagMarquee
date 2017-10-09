@@ -2068,9 +2068,10 @@ var App = function (_React$Component) {
         _react2.default.createElement(
           'h3',
           null,
-          'hashtagMarquee'
+          '#hashtagMarquee'
         ),
         _react2.default.createElement(_addHashtag2.default, null),
+        _react2.default.createElement('br', null),
         _react2.default.createElement(_MarqueeWrapper2.default, null)
       );
     }
@@ -24002,7 +24003,7 @@ var SimpleMarquee = function (_React$Component) {
               var t = document.createElement('div');
               t.classList.add('marqueeTweet');
               t.innerText = tweet.text;
-              var length = t.innerText.length * 5;
+              var length = t.innerText.length * 8;
               if (i === 0) {
                 _this3.currentMarqueeWidth += length;
               }
@@ -24028,7 +24029,17 @@ var SimpleMarquee = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('div', { className: 'marquee', id: 'marquee-' + this.index });
+      return _react2.default.createElement(
+        'div',
+        { className: 'marqueeOuter' },
+        _react2.default.createElement(
+          'div',
+          { className: 'marqueeLabel', id: 'marqueeLabel-' + this.index },
+          '#',
+          this.marqueeData[0].hashtag
+        ),
+        _react2.default.createElement('div', { className: 'marquee', id: 'marquee-' + this.index })
+      );
     }
   }]);
 

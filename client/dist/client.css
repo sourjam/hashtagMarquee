@@ -14,8 +14,12 @@ h3 {
   width: 100%;
 }
 
+.marqueeLabel {
+  font-family: 'Roboto', sans-serif;
+}
+
 .marqueeTweet {
-  font-size: 2em;
+  font-size: 1.5em;
   font-family: 'Open Sans', sans-serif;
 }
 

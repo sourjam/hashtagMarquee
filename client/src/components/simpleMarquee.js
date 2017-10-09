@@ -74,7 +74,7 @@ export default class SimpleMarquee extends React.Component {
             let t = document.createElement('div')
             t.classList.add('marqueeTweet')
             t.innerText = tweet.text
-            let length = t.innerText.length * 5
+            let length = t.innerText.length * 8
             if (i === 0) {
               this.currentMarqueeWidth += length
             }
@@ -97,7 +97,13 @@ export default class SimpleMarquee extends React.Component {
   }
   render() {
     return (
-      <div className="marquee" id={'marquee-' + this.index}></div>
+      <div className="marqueeOuter">
+        <div className="marqueeToolbar" id={'marqueeToolbar-' + this.index}>
+          <div className="marqueeLabel" id={'marqueeLabel-' + this.index}>#{this.marqueeData[0].hashtag}</div>
+
+        </div>
+        <div className="marquee" id={'marquee-' + this.index}></div>
+      </div>
     )
   }
 }
