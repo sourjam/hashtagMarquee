@@ -9,7 +9,10 @@ const hashtagReducer = (state = [], action) => {
       return newState = state.concat([action.payload])
     case actionType.REMOVE_HASHTAG:
     // add action here
-      return newState = state - action.payload;
+      let index = state.indexOf(action.payload)
+      let newState = state.slice()
+      newState.splice(index, 1)
+      return newState;
     default:
       return state;
   }

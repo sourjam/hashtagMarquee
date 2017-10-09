@@ -13,6 +13,7 @@ class MarqueeWrapper extends React.Component {
     this.searchHashtag = this.searchHashtag.bind(this)
     this.updateHashtag = this.updateHashtag.bind(this)
     this.mergeTweetsToUnique = this.mergeTweetsToUnique.bind(this)
+    this.removeMarquee = this.removeMarquee.bind(this)
     console.log(props)
   }
   searchHashtag(hashtag) {
@@ -66,6 +67,7 @@ class MarqueeWrapper extends React.Component {
   }
   componentWillUpdate(newState) {
     console.log('updating', newState)
+    console.log(this.state.tagsLoaded)
     newState.hashtags.forEach((tag) => {
       if (!this.state.tagsLoaded.includes(tag)) {
         this.searchHashtag(tag).then((result) => {
@@ -86,6 +88,14 @@ class MarqueeWrapper extends React.Component {
       }
     })
   }
+  removeMarquee(hashtag){
+    let index = this.state.tagsLoaded.indexOf(hashtag)
+    this.state.tagsLoaded[index] = ''
+    this.state.marqueeData[index] = []
+    clearInterval(this.intervals[hashtag])
+    let el = document.getElementById('marqueeOuter-' + index)
+    el.remove()
+  }
   render() {
     console.log('rendering...')
     return (
@@ -93,7 +103,11 @@ class MarqueeWrapper extends React.Component {
         { this.state.marqueeData.length > 0 ?
           <div>
             { this.state.marqueeData.map((datum, i) => {
-              return <SimpleMarquee key={'SimpleMarquee-' + i} ref={instance => {this.children[i] = instance}} index={i} data={datum} />
+              return <SimpleMarquee key={'SimpleMarquee-' + i}
+                ref={instance => {this.children[i] = instance}}
+                removeMarquee={this.removeMarquee}
+                index={i}
+                data={datum} />
             })}
           </div> : null
         }

@@ -1,5 +1,7 @@
 import React from 'react';
 import randomcolor from 'randomcolor';
+import RemoveHashtag from '../containers/removeHashtag'
+
 
 let fontRandom = () => {
   let fonts = ['Lato', 'Roboto Slab', 'Monteserrate']
@@ -26,6 +28,8 @@ export default class SimpleMarquee extends React.Component {
 
     this.index = props.index
     this.marqueeData = props.data
+    this.removeMarquee = props.removeMarquee
+
     this.marqueeEl = document.createElement('div')
     this.marqueeEl.classList.add('marqueeScroll')
     props.data.forEach((tweet) => {
@@ -113,13 +117,13 @@ export default class SimpleMarquee extends React.Component {
   }
   render() {
     return (
-      <div className="marqueeOuter">
+      <div className="marqueeOuter" id={'marqueeOuter-' + this.index}>
         <div className="marqueeToolbar" id={'marqueeToolbar-' + this.index}>
           <div className="marqueeLabel" id={'marqueeLabel-' + this.index}>#{this.marqueeData[0].hashtag}</div>
           <div className="marqueeButtons">
             <div className="marqueeButton" onClick={this.increaseFont}>+</div>
             <div className="marqueeButton" onClick={this.decreaseFont}>-</div>
-            <div className="marqueeButton trouble">x</div>
+            <RemoveHashtag remove={this.removeMarquee} tag={this.marqueeData[0].hashtag} />
           </div>
         </div>
         <div style={{fontSize: this.currentFont + 'em'}} className="marquee" id={'marquee-' + this.index}></div>
