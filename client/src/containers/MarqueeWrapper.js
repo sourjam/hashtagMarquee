@@ -99,6 +99,7 @@ class MarqueeWrapper extends React.Component {
     this.state.marqueeData[index] = []
     clearInterval(this.intervals[hashtag])
     let el = document.getElementById('marqueeOuter-' + index)
+    el.style.display = 'none'
     el.remove()
   }
   render() {

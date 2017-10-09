@@ -5,7 +5,7 @@ export const addHashtag = (hashtag) => ({
   payload: hashtag
 })
 
-export const removeHashtag = () => ({
+export const removeHashtag = (hashtag) => ({
   type: actionType.REMOVE_HASHTAG,
-  payload: 1
+  payload: hashtag
 })

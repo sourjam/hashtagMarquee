@@ -11,7 +11,8 @@ const hashtagReducer = (state = [], action) => {
     // add action here
       let index = state.indexOf(action.payload)
       let newState = state.slice()
-      newState.splice(index, 1)
+      let refund = newState.splice(index, 1)
+      console.log('removinghashtag', newState, refund)
       return newState;
     default:
       return state;
