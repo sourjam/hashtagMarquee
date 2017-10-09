@@ -51,21 +51,24 @@ class MarqueeWrapper extends React.Component {
     return result
   }
   updateHashtag(hashtag) {
-    let index = this.state.tagsLoaded.indexOf(hashtag)
-    let oldData = this.state.marqueeData[index]
-    this.searchHashtag(hashtag).then((latest) => {
-      // merge and remove dupes // move to server in future
-      let merged = this.mergeTweetsToUnique(oldData, latest)
-      let uniques = this.filterTweetsToUnique(oldData, latest)
-      if (merged.length !== oldData.length) {
-        this.state.marqueeData[index] = merged
-        let newMarqueeData = this.state.marqueeData.slice()
-        this.children[index].appendTweets(uniques)
-        this.state.marqueeData = newMarqueeData
-        // this.setState({marqueeData: newMarqueeData})
-        // update simple marquee to append new child tweets
-      }
-    })
+    console.log('attempting update')
+    if (this.state.tagsLoaded.includes(hashtag)) {
+      let index = this.state.tagsLoaded.indexOf(hashtag)
+      let oldData = this.state.marqueeData[index]
+      this.searchHashtag(hashtag).then((latest) => {
+        // merge and remove dupes // move to server in future
+        let merged = this.mergeTweetsToUnique(oldData, latest)
+        let uniques = this.filterTweetsToUnique(oldData, latest)
+        if (merged.length !== oldData.length) {
+          this.state.marqueeData[index] = merged
+          let newMarqueeData = this.state.marqueeData.slice()
+          this.children[index].appendTweets(uniques)
+          this.state.marqueeData = newMarqueeData
+          // this.setState({marqueeData: newMarqueeData})
+          // update simple marquee to append new child tweets
+        }
+      })
+    }
   }
   componentWillUpdate(newState) {
     console.log('updating', newState)
