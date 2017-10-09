@@ -2,6 +2,10 @@ body {
   background-color: whitesmoke;
 }
 
+h3 {
+  font-family: 'Roboto', sans-serif;
+}
+
 .marquee {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -12,7 +16,7 @@ body {
 
 .marqueeTweet {
   font-size: 2em;
-  font-family: 'Roboto Slab', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .marqueeScroll {

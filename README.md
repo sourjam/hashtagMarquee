@@ -8,6 +8,7 @@
 
 1. Save hashtag playlists
 2. User can remove a hashtag marquee
+3. Trending hashtag playlists
 
 ### UX Improvements
 

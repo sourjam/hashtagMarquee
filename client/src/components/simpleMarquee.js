@@ -39,7 +39,14 @@ export default class SimpleMarquee extends React.Component {
   }
   componentDidMount() {
     this.marquee = document.getElementById('marquee-' + this.index)
-    this.marqueeEl.style.backgroundColor = randomcolor({ luminosity: 'light'})
+    let random = Math.random();
+    console.log('random', random)
+    if (random > .5) {
+      this.marqueeEl.style.backgroundColor = randomcolor({ luminosity: 'bright'})
+    } else {
+      this.marqueeEl.style.backgroundColor = randomcolor({ luminosity: 'dark'})
+      this.marqueeEl.style.color = 'whitesmoke'
+    }
     this.marqueeEl.addEventListener('animationiteration', () => {
       console.log('sky blue iterated')
       this.checkToAppendTweets()
@@ -61,14 +68,16 @@ export default class SimpleMarquee extends React.Component {
     if (this.tweetsToAppend.length > 0) {
       console.log('marquee', this.marquee.children)
       let children = [this.marquee.children[0], this.marquee.children[1], this.marquee.children[2]]
-      children.forEach((el) => {
+      children.forEach((el, i) => {
         this.tweetsToAppend.forEach((tweet) => {
           if (!tweet.text.match('RT @')) {
             let t = document.createElement('div')
             t.classList.add('marqueeTweet')
             t.innerText = tweet.text
             let length = t.innerText.length * 5
-            this.currentMarqueeWidth += length
+            if (i === 0) {
+              this.currentMarqueeWidth += length
+            }
             t.style.width = length + 'px'
             // t.style.fontFamily = fontRandom() + ', sans-serif'
             el.appendChild(t)

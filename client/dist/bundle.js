@@ -2068,7 +2068,7 @@ var App = function (_React$Component) {
         _react2.default.createElement(
           'h3',
           null,
-          'Hello React'
+          'hashtagMarquee'
         ),
         _react2.default.createElement(_addHashtag2.default, null),
         _react2.default.createElement(_MarqueeWrapper2.default, null)
@@ -23862,13 +23862,6 @@ var MarqueeWrapper = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(
-          'button',
-          { onClick: function onClick() {
-              _this4.updateHashtag('news');
-            } },
-          'click'
-        ),
         this.state.marqueeData.length > 0 ? _react2.default.createElement(
           'div',
           null,
@@ -23971,7 +23964,14 @@ var SimpleMarquee = function (_React$Component) {
       var _this2 = this;
 
       this.marquee = document.getElementById('marquee-' + this.index);
-      this.marqueeEl.style.backgroundColor = (0, _randomcolor2.default)({ luminosity: 'light' });
+      var random = Math.random();
+      console.log('random', random);
+      if (random > .5) {
+        this.marqueeEl.style.backgroundColor = (0, _randomcolor2.default)({ luminosity: 'bright' });
+      } else {
+        this.marqueeEl.style.backgroundColor = (0, _randomcolor2.default)({ luminosity: 'dark' });
+        this.marqueeEl.style.color = 'whitesmoke';
+      }
       this.marqueeEl.addEventListener('animationiteration', function () {
         console.log('sky blue iterated');
         _this2.checkToAppendTweets();
@@ -23996,14 +23996,16 @@ var SimpleMarquee = function (_React$Component) {
       if (this.tweetsToAppend.length > 0) {
         console.log('marquee', this.marquee.children);
         var children = [this.marquee.children[0], this.marquee.children[1], this.marquee.children[2]];
-        children.forEach(function (el) {
+        children.forEach(function (el, i) {
           _this3.tweetsToAppend.forEach(function (tweet) {
             if (!tweet.text.match('RT @')) {
               var t = document.createElement('div');
               t.classList.add('marqueeTweet');
               t.innerText = tweet.text;
               var length = t.innerText.length * 5;
-              _this3.currentMarqueeWidth += length;
+              if (i === 0) {
+                _this3.currentMarqueeWidth += length;
+              }
               t.style.width = length + 'px';
               // t.style.fontFamily = fontRandom() + ', sans-serif'
               el.appendChild(t);
