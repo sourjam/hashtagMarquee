@@ -19,4 +19,7 @@
 
 ### Bugs
 
-1. Marquee will reappear if query is already in process.
+1. Marquee will reappear if query is already in process. - fixed
+2. Invalid hashtag terms may crash server
+3. Cards may jump if too few tweets
+4. No tweets needs a default message

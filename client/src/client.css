@@ -50,19 +50,21 @@ button:hover {
   font-family: 'Roboto', sans-serif;
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  padding-bottom: 5px;
   position: relative;
 }
 
 .marqueeLabel {
   padding-right: .2em;
-
+  padding-left: .5em;
 }
 
 .marqueeButtons {
   position: absolute;
   right: 0;
+  top: 0;
   display: flex;
+  padding-right: .5em;
 }
 
 .marqueeButton {

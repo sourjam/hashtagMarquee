@@ -1,7 +1,6 @@
 import React from 'react';
-import randomcolor from 'randomcolor';
 import RemoveHashtag from '../containers/removeHashtag'
-
+require('../Please-compressed')
 
 let fontRandom = () => {
   let fonts = ['Lato', 'Roboto Slab', 'Monteserrate']
@@ -48,13 +47,29 @@ export default class SimpleMarquee extends React.Component {
   }
   componentDidMount() {
     this.marquee = document.getElementById('marquee-' + this.index)
+    this.toolbar = document.getElementById('marqueeToolbar-' + this.index)
     let random = Math.random();
-    console.log('random', random)
+    console.log('random', random, window, Please)
     if (random > .5) {
-      this.marqueeEl.style.backgroundColor = randomcolor({ luminosity: 'bright'})
+      let color = Please.make_color({format: 'hsv', saturation: .5, value: .9})
+      let colors = Please.make_scheme(color, {scheme_type: 'mono'})
+      console.log('colors', colors, color)
+      this.bgColor = colors[0]
+      this.toolbarColor = colors[1]
+      this.fontColor = 'black'
+      this.marqueeEl.style.backgroundColor = this.bgColor
+      this.marqueeEl.style.color = this.fontColor
+      this.toolbar.style.backgroundColor = this.toolbarColor
     } else {
-      this.marqueeEl.style.backgroundColor = randomcolor({ luminosity: 'dark'})
-      this.marqueeEl.style.color = 'whitesmoke'
+      let color = Please.make_color({format: 'hsv', saturation: .5, value: .9})
+      let colors = Please.make_scheme(color, {scheme_type: 'mono'})
+      console.log('colors', colors, color)
+      this.bgColor = colors[0]
+      this.toolbarColor = colors[1]
+      this.fontColor = 'whitesmoke'
+      this.marqueeEl.style.backgroundColor = this.bgColor
+      this.marqueeEl.style.color = this.fontColor
+      this.toolbar.style.backgroundColor = this.toolbarColor
     }
     this.marqueeEl.addEventListener('animationiteration', () => {
       console.log('sky blue iterated')
@@ -118,7 +133,8 @@ export default class SimpleMarquee extends React.Component {
   render() {
     return (
       <div className="marqueeOuter" id={'marqueeOuter-' + this.index}>
-        <div className="marqueeToolbar" id={'marqueeToolbar-' + this.index}>
+        <div className="marqueeToolbar"
+          id={'marqueeToolbar-' + this.index}>
           <div className="marqueeLabel" id={'marqueeLabel-' + this.index}>#{this.marqueeData[0].hashtag}</div>
           <div className="marqueeButtons">
             <div className="marqueeButton" onClick={this.increaseFont}>+</div>
