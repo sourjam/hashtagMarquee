@@ -12,7 +12,7 @@ class SimpleInput extends React.Component {
   updateInput(event) {
     this.setState({userInput: event.target.value})
   }
-  runSearch() {
+  runSearch() {)
     this.searchHashtag(this.state.userInput).then((result) => {
       if (result.error) {
         let marquee = [{text: 'No tweets found for: ' + this.state.userInput}]
