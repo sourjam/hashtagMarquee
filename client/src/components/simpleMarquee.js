@@ -48,29 +48,14 @@ export default class SimpleMarquee extends React.Component {
   componentDidMount() {
     this.marquee = document.getElementById('marquee-' + this.index)
     this.toolbar = document.getElementById('marqueeToolbar-' + this.index)
-    let random = Math.random();
-    console.log('random', random, window, Please)
-    if (random > .5) {
-      let color = Please.make_color({format: 'hsv', saturation: .5, value: .9})
-      let colors = Please.make_scheme(color, {scheme_type: 'mono'})
-      console.log('colors', colors, color)
-      this.bgColor = colors[0]
-      this.toolbarColor = colors[1]
-      this.fontColor = 'black'
-      this.marqueeEl.style.backgroundColor = this.bgColor
-      this.marqueeEl.style.color = this.fontColor
-      this.toolbar.style.backgroundColor = this.toolbarColor
-    } else {
-      let color = Please.make_color({format: 'hsv', saturation: .5, value: .9})
-      let colors = Please.make_scheme(color, {scheme_type: 'mono'})
-      console.log('colors', colors, color)
-      this.bgColor = colors[0]
-      this.toolbarColor = colors[1]
-      this.fontColor = 'whitesmoke'
-      this.marqueeEl.style.backgroundColor = this.bgColor
-      this.marqueeEl.style.color = this.fontColor
-      this.toolbar.style.backgroundColor = this.toolbarColor
-    }
+    let color = Please.make_color({format: 'hsv', saturation: .5, value: .9})
+    let colors = Please.make_scheme(color, {scheme_type: 'mono'})
+    this.bgColor = colors[0]
+    this.toolbarColor = colors[1]
+    this.fontColor = 'black'
+    this.marqueeEl.style.backgroundColor = this.bgColor
+    this.marqueeEl.style.color = this.fontColor
+    this.toolbar.style.backgroundColor = this.toolbarColor
     this.marqueeEl.addEventListener('animationiteration', () => {
       console.log('sky blue iterated')
       this.checkToAppendTweets()
