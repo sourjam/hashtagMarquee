@@ -15,6 +15,7 @@ class AddHashtag extends React.Component {
   keypressHandler(event) {
     if (event.charCode == 13) {
       event.preventDefault();
+      this.state.userInput = this.state.userInput.replace('#', '')
       this.state.userInput = this.state.userInput.replace(' ', '')
       this.props.dispatch(addHashtag(this.state.userInput));
       this.clearInput();
@@ -39,6 +40,7 @@ class AddHashtag extends React.Component {
         <button onClick={(e) => {
           e.preventDefault();
           if (this.state.userInput.length > 0) {
+            this.state.userInput = this.state.userInput.replace('#', '')
             this.state.userInput = this.state.userInput.replace(' ', '')
             this.props.dispatch(addHashtag(this.state.userInput));
             this.clearInput();
