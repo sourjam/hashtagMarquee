@@ -32,11 +32,15 @@ app.get("/search/:hashtag", (req, res) => {
     } else {
       let bulkTweets = []
       result.statuses.forEach((tweet) => {
+        console.log('tweets', tweet)
         let t = {}
+        t.verified = tweet.verified
+        t.retweetCount = tweet.retweet_count
+        t.favoriteCount = tweet.favorite_count
         t.text = tweet.text
         t.text = t.text.replace(/\r?\n/g, '')
         t.name = tweet.user.name
-        t.screenname = tweet.user.screen_name
+        t.screenname = tweet.user.screen_name // used for url
         t.date = tweet.created_at
         t.hashtag = req.params.hashtag
         bulkTweets.push(t)

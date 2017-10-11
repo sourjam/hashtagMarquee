@@ -34,12 +34,19 @@ export default class SimpleMarquee extends React.Component {
     props.data.forEach((tweet) => {
         if (!tweet.text.match('RT @')) {
           let t = document.createElement('div')
+          let u = document.createElement('a')
+          u.classList.add('marqueeTweetUsername')
+          u.setAttribute('target', '_blank')
+          u.setAttribute('href', '//twitter.com/' + tweet.screenname)
+          u.innerText = '@' + tweet.screenname
+          console.log('appending', tweet, u, t)
           t.classList.add('marqueeTweet')
           t.innerText = tweet.text
           let length = t.innerText.length * 8
           this.currentMarqueeWidth += length
           t.style.width = length + 'px'
-          // t.style.fontFamily = fontRandom() + ', sans-serif'
+
+          this.marqueeEl.appendChild(u)
           this.marqueeEl.appendChild(t)
         }
     })
@@ -83,12 +90,18 @@ export default class SimpleMarquee extends React.Component {
             let t = document.createElement('div')
             t.classList.add('marqueeTweet')
             t.innerText = tweet.text
+            let u = document.createElement('a')
+            u.classList.add('marqueeTweetUsername')
+            u.setAttribute('target', '_blank')
+            u.setAttribute('href', '//twitter.com/' + tweet.screenname)
+            u.innerText = '@' + tweet.screenname
             let length = t.innerText.length * 8
             if (i === 0) {
               this.currentMarqueeWidth += length
             }
             t.style.width = length + 'px'
             // t.style.fontFamily = fontRandom() + ', sans-serif'
+            el.appendChild(u)
             el.appendChild(t)
           }
         })
