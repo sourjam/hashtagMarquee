@@ -18,7 +18,7 @@ class MarqueeWrapper extends React.Component {
   }
   searchHashtag(hashtag) {
     let localUrl = "http://localhost:5000/search/" + hashtag
-    // localUrl = "https://hashtagmarquee.herokuapp.com/search/" + hashtag
+    localUrl = "https://hashtagmarquee.herokuapp.com/search/" + hashtag
     console.log('local', localUrl)
     return new Promise((resolve, reject) => {
       fetch(localUrl).then(resp => resp.json()).then((data) => {
