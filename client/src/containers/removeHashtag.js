@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { removeHashtag } from '../actions';
+import { removeHashtag, addHashtag } from '../actions';
 import { bindActionCreators } from 'redux';
 
 class RemoveHashtag extends React.Component {

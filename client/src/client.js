@@ -12,6 +12,7 @@ const store = createStore(reducer)
 export default class App extends React.Component {
   constructor(props) {
     super();
+    this.components = {}
   }
   componentWillMount() {
     console.log('url', window.location.href)
@@ -35,9 +36,9 @@ export default class App extends React.Component {
     return (
       <div>
         <h3>#hashtagMarquee</h3>
-        <AddHashtag></AddHashtag>
+        <AddHashtag ref={instance => this.components.addHashtag = instance}></AddHashtag>
         <br></br>
-        <MarqueeWrapper></MarqueeWrapper>
+        <MarqueeWrapper components={this.components}></MarqueeWrapper>
       </div>
     )
   }

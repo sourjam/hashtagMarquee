@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SimpleMarquee from '../components/SimpleMarquee'
+import { addHashtag } from '../actions';
+import { bindActionCreators } from 'redux';
 
 class MarqueeWrapper extends React.Component {
   constructor(props) {
@@ -14,7 +16,8 @@ class MarqueeWrapper extends React.Component {
     this.updateHashtag = this.updateHashtag.bind(this)
     this.mergeTweetsToUnique = this.mergeTweetsToUnique.bind(this)
     this.removeMarquee = this.removeMarquee.bind(this)
-    console.log(props)
+    this.components = props.components
+    console.log('mwrapper', this.components)
   }
   searchHashtag(hashtag) {
     // let localUrl = "http://localhost:5000/search/" + hashtag
@@ -62,6 +65,7 @@ class MarqueeWrapper extends React.Component {
         if (merged.length !== oldData.length) {
           this.state.marqueeData[index] = merged
           let newMarqueeData = this.state.marqueeData.slice()
+          console.log('children', this.children)
           this.children[index].appendTweets(uniques)
           this.state.marqueeData = newMarqueeData
           // this.setState({marqueeData: newMarqueeData})
@@ -121,7 +125,6 @@ class MarqueeWrapper extends React.Component {
     )
   }
 }
-
 function mapStateToProps(state) {
   console.log('state', state)
   return {
