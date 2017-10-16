@@ -50,7 +50,7 @@ export default class SimpleMarquee extends React.Component {
           if (tags) {
             tags.forEach((tag) => {
               console.log('this tag', tag)
-              tweet.text = tweet.text.replace(tag, '<button class="#test01">' + tag + '</button>')
+              tweet.text = tweet.text.replace(tag, '<button class="#hashButton">' + tag + '</button>')
             })
           }
 
@@ -94,13 +94,15 @@ export default class SimpleMarquee extends React.Component {
     // cloned.style.backgroundColor = 'coral'
     this.marquee.appendChild(clonedAgain)
 
-    let buttons = document.getElementsByClassName('#test01')
+    let buttons = document.getElementsByClassName('#hashButton')
     console.log('here is appended', buttons)
     for(var i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener('click', () => {
-        console.log('add', this.marqueeChildren.store.dispatch({type: 'ADD_HASHTAG', payload: 'hello'}))
-        // this.addHashtag('news')
-
+      buttons[i].addEventListener('click', (e) => {
+        console.log('button e', e)
+        let tag = e.target.innerText
+        tag = tag.replace('#', '')
+        tag = tag.toLowerCase()
+        this.marqueeChildren.store.dispatch({type: 'ADD_HASHTAG', payload: tag})
       })
     }
 
@@ -114,7 +116,17 @@ export default class SimpleMarquee extends React.Component {
           if (!tweet.text.match('RT @')) {
             let t = document.createElement('div')
             t.classList.add('marqueeTweet')
+
+            let tags = tweet.text.match(/\B#\w{3,}/gi)
+            console.log(tags)
+            if (tags) {
+              tags.forEach((tag) => {
+                tweet.text = tweet.text.replace(tag, '<button class="#hashButton">' + tag + '</button>')
+              })
+            }
+
             t.innerHTML = tweet.text
+            
             let u = document.createElement('a')
             u.classList.add('marqueeTweetUsername')
             u.setAttribute('target', '_blank')
@@ -125,16 +137,10 @@ export default class SimpleMarquee extends React.Component {
               this.currentMarqueeWidth += length
             }
             t.style.width = length + 'px'
-            // t.style.fontFamily = fontRandom() + ', sans-serif'
             el.appendChild(u)
             el.appendChild(t)
-            let ht = document.createElement('button')
-            ht.innerText = 'hashtag'
-            ht.addEventListener('onclick', () => {
 
 
-            })
-            el.appendChild(ht)
           }
         })
         let duration = this.currentMarqueeWidth / 50 + 's'
